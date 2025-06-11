@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    // 빌드 정보 캐시 파일 경로입니다. 증분 컴파일(변경된 파일만 다시 컴파일)을 통해 빌드 속도를 높입니다.
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    // TypeScript를 어떤 버전의 JavaScript로 컴파일할지 목표(target)를 정합니다. ES2020 문법으로 변환됩니다.
+    "target": "ES2020",
+    // 클래스 필드를 ECMAScript 표준에 맞게 정의합니다. (단순 할당 대신 Object.defineProperty 사용)
+    "useDefineForClassFields": true,
+    // 컴파일 시 사용할 라이브러리 목록입니다. ES2020 문법, DOM API, DOM 순회(Iterable) API의 타입 정의를 포함합니다.
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // 어떤 모듈 시스템으로 컴파일할지 정합니다. ESNext는 import/export 문법을 그대로 사용하겠다는 의미입니다.
+    "module": "ESNext",
+    // node_modules에 있는 선언 파일(.d.ts)들의 타입 검사를 건너뜁니다. 컴파일 속도가 향상됩니다.
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    // 모듈 경로를 해석하는 방식을 정합니다. 'bundler'는 Vite, Webpack 같은 최신 번들러의 해석 방식을 따릅니다.
+    "moduleResolution": "bundler",
+
+    // .ts나 .tsx 확장자를 붙여서 파일을 임포트하는 것을 허용합니다. (예: import App from './App.ts')
+    "allowImportingTsExtensions": true,
+    // import 문을 있는 그대로(verbatim) 다룹니다. import type과 일반 import를 엄격히 구분하여 번들러가 불필요한 코드를 제거(tree-shaking)하기 쉽게 돕습니다.
+    "verbatimModuleSyntax": true,
+    // import/export 구문이 없는 파일도 강제로 모듈로 취급하여 전역 스코프 오염을 방지합니다.
+    "moduleDetection": "force",
+    // TypeScript가 .js 결과물을 생성하지 않도록 합니다. 실제 변환(transpile) 및 번들링은 Vite, esbuild 같은 번들러가 담당하기 때문입니다.
+    "noEmit": true,
+    // JSX 문법을 어떻게 처리할지 정합니다. 'react-jsx'는 React 17+의 새로운 JSX 변환 방식을 사용합니다. (import React from 'react'가 없어도 JSX 사용 가능)
+    "jsx": "react-jsx",
+
+    /* Linting */
+    // 모든 엄격한 타입 검사 옵션들(noImplicitAny, strictNullChecks 등)을 활성화합니다. 코드 안정성을 크게 높여줍니다.
+    "strict": true,
+    // 사용되지 않는 지역 변수가 있으면 에러를 발생시킵니다.
+    "noUnusedLocals": true,
+    // 사용되지 않는 함수의 매개변수(parameter)가 있으면 에러를 발생시킵니다.
+    "noUnusedParameters": true,
+    // switch 문에서 case가 실수로 fall-through (break나 return 없이 다음 case로 넘어가는 것)되는 것을 막습니다.
+    "noFallthroughCasesInSwitch": true,
+    // import './style.css' 와 같이 사이드 이펙트만을 위한 import 문을 사용할 때, 의도를 명확히 하도록 하여 실수를 방지합니다.
+    "noUncheckedSideEffectImports": true
+  },
+  // TypeScript 컴파일에 포함할 파일/폴더의 목록입니다. 'src' 폴더 아래의 모든 파일을 대상으로 합니다.
+  "include": ["src"]
+}
