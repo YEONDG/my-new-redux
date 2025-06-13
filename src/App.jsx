@@ -1,52 +1,67 @@
+import React from 'react';
 import { ArrowDown, Circle, CircleCheckBig } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
+import { useCustomDispatch, useCustomSelector } from './redux-react/hooks';
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: '할 일1', isDone: false },
-    { id: 2, text: '할 일2', isDone: true },
-    { id: 3, text: '할 일3', isDone: false },
-    { id: 4, text: '할 일4', isDone: true },
-  ]);
+  // const [todos, setTodos] = useState([
+  //   { id: 1, text: '할 일1', isDone: false },
+  //   { id: 2, text: '할 일2', isDone: true },
+  //   { id: 3, text: '할 일3', isDone: false },
+  //   { id: 4, text: '할 일4', isDone: true },
+  // ]);
+
+  const todos = useCustomSelector((state) => state);
+  const dispatch = useCustomDispatch();
+
   const [inputValue, setInputValue] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [selectedFilter, setSelectedFilter] = useState('all');
 
   const handleCommitNewTodo = () => {
-    if (!inputValue.trim()) return;
+    const text = inputValue.trim();
+    if (!text) return;
 
-    const newTodo = {
-      id: new Date().getTime(),
-      text: inputValue.trim(),
-      isActive: true,
-      isDone: false,
-    };
-    setTodos([...todos, newTodo]);
+    // const newTodo = {
+    //   id: new Date().getTime(),
+    //   text: inputValue.trim(),
+    //   isActive: true,
+    //   isDone: false,
+    // };
+    // setTodos([...todos, newTodo]);
+    dispatch({
+      type: 'ADD_TODO',
+      payload: {
+        text,
+      },
+    });
     setInputValue('');
   };
 
-  const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
+  const handleAddTodo = (e) => {
     e.preventDefault();
     handleCommitNewTodo();
   };
 
-  const handleToggleTodo = (id: number) => {
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
+  const handleToggleTodo = (id) => {
+    dispatch({ type: 'TOGGLE_TODO', payload: { id } });
   };
 
-  const handleDeleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleDeleteTodo = (id) => {
+    dispatch({ type: 'DELETE_TODO', payload: { id } });
   };
 
   const handleDeleteCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.isDone));
+    dispatch({ type: 'DELETE_COMPLETED' });
   };
 
   const handleAllCompleted = () => {
-    if (isAllCompleted) {
-      return setTodos(todos.map((todo) => ({ ...todo, isDone: false })));
-    } else {
-      return setTodos(todos.map((todo) => ({ ...todo, isDone: true })));
-    }
+    // if (isAllCompleted) {
+    //   return setTodos(todos.map((todo) => ({ ...todo, isDone: false })));
+    // } else {
+    //   return setTodos(todos.map((todo) => ({ ...todo, isDone: true })));
+    // }
+    const allCompleted = todos.every((todo) => todo.isDone);
+    dispatch({ type: 'TOGGLE_ALL_TODOS', payload: { isDone: !allCompleted } });
   };
 
   const filteredTodos = todos
@@ -59,9 +74,6 @@ function App() {
     .reverse();
 
   const activeTodosCount = todos.filter((todo) => !todo.isDone).length;
-
-  const isAllCompleted = todos.every((todo) => todo.isDone);
-
   const isDeleteCompleted = todos.some((todo) => todo.isDone);
 
   return (

@@ -28,6 +28,7 @@
     "noEmit": true,
     // JSX 문법을 어떻게 처리할지 정합니다. 'react-jsx'는 React 17+의 새로운 JSX 변환 방식을 사용합니다. (import React from 'react'가 없어도 JSX 사용 가능)
     "jsx": "react-jsx",
+    "allowJs": true,
 
     /* Linting */
     // 모든 엄격한 타입 검사 옵션들(noImplicitAny, strictNullChecks 등)을 활성화합니다. 코드 안정성을 크게 높여줍니다.
